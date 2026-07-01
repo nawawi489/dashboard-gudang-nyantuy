@@ -4,5 +4,6 @@ dist
 .env.local
 .env.production.local
 .DS_Store
+tsconfig.tsbuildinfo
 
 .vercel

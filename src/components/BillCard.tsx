@@ -24,7 +24,7 @@ export default function BillCard({ trxId, items, onInputPaymentProof, ctaLabel =
            <div className="approval-card__title">{headerItem.supplier}</div>
            <div className="approval-card__subtitle">{headerItem.date}</div>
         </div>
-        <div className="approval-card__subtitle">{headerItem.cabang}</div>
+        <div className="approval-card__subtitle">{headerItem.outlet}</div>
         
         <div className="approval-card__divider" />
         

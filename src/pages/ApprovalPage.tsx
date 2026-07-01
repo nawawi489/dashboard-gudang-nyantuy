@@ -61,9 +61,11 @@ export default function ApprovalPage() {
       return i.status === 'Pending' || acceptedKeys[key]
     })
     
-    // Client-side filter masih berguna jika API mengembalikan semua data saat cabang=''
-    // atau untuk memastikan data benar-benar sesuai
-    if (cabang) base = base.filter(i => i.cabang === cabang)
+    // Client-side filter lebih robust (trim + lowercase) untuk menangani perbedaan casing/spasi dari server
+    if (cabang) {
+      const target = cabang.toLowerCase().trim()
+      base = base.filter(i => (i.outlet || '').toLowerCase().trim() === target)
+    }
     
     // Hapus filter status dari UI karena sudah difilter di awal (hanya 'Pending')
     // Tapi jika user ingin filter lagi (misal status pembayaran), bisa ditambahkan logic lain
@@ -101,7 +103,7 @@ export default function ApprovalPage() {
   }
 
   const handleAccept = async (item: ApprovalItem) => {
-    if (!item.trxId || !item.itemId || !item.cabang) {
+    if (!item.trxId || !item.itemId || !item.outlet) {
       alert('Data tidak lengkap untuk verifikasi finance')
       return
     }
@@ -112,7 +114,7 @@ export default function ApprovalPage() {
       await submitFinanceVerification({
         trxId: item.trxId,
         itemId: item.itemId,
-        cabang: item.cabang,
+        outlet: item.outlet,
         nomorInvoice: item.nomorInvoice || '',
       })
       setAcceptedKeys(prev => ({ ...prev, [key]: true }))
@@ -181,7 +183,7 @@ export default function ApprovalPage() {
               date={i.date}
               itemId={i.itemId}
               itemName={i.itemName}
-              cabang={i.cabang}
+              cabang={i.outlet}
               supplier={i.supplier}
               unit={i.unit}
               quantity={i.quantity}

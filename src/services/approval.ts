@@ -7,7 +7,7 @@ export { type ApprovalItem, type ApprovalStatus }
 type FinanceVerifPayload = {
   trxId: string
   itemId: string
-  cabang: string
+  outlet: string
   nomorInvoice: string
 }
 
@@ -15,8 +15,8 @@ export async function fetchApprovalItems(cabang?: string): Promise<ApprovalItem[
   try {
     let url = WEBHOOK_LIST_PO
     const separator = url.includes('?') ? '&' : '?'
-    // Selalu kirim parameter cabang, meskipun kosong, agar sesuai dengan logic Switch di n8n
-    url = `${url}${separator}cabang=${encodeURIComponent(cabang || '')}`
+    // Selalu kirim parameter outlet, meskipun kosong, agar sesuai dengan logic Switch di n8n
+    url = `${url}${separator}outlet=${encodeURIComponent(cabang || '')}`
 
     const res = await fetch(url, { 
       headers: { Accept: 'application/json' }, 
@@ -88,7 +88,7 @@ export async function fetchApprovalItems(cabang?: string): Promise<ApprovalItem[
         date: normalizeText(row['TANGGAL PO'] || row.date || ''),
         itemId: normalizeText(row['ID BARANG'] || row.itemId || ''),
         itemName: normalizeText(row['NAMA BARANG'] || row.itemName || ''),
-        cabang: normalizeText(row.cabang || row.Cabang || '-'),
+        outlet: normalizeText(row.outlet || row.cabang || row.Cabang || '-'),
         supplier: normalizeText(row['NAMA SUPLIER'] || row.supplier || '-'),
         unit: normalizeText(row['SATUAN'] || row.unit || ''),
         quantity: normalizeNumber(row['JUMLAH'] || row.quantity || 0),

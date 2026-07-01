@@ -1,5 +1,5 @@
 import { normalizeNumber, normalizeText } from '../utils/format'
-import { WEBHOOK_GET_BARANG, WEBHOOK_LIST_PENGAJUAN_INVENTARIS, WEBHOOK_GET_DATABASE_PERLENGKAPAN } from '../config'
+import { WEBHOOK_GET_BARANG, WEBHOOK_LIST_PENGAJUAN_INVENTARIS } from '../config'
 import { ItemRow } from '../types'
 
 export type { ItemRow }
@@ -36,18 +36,6 @@ function toInventoryItemRow(row: any): ItemRow {
     price: normalizeNumber(row.Harga ?? row.price),
     brand: normalizeText(row['Merk'] ?? row.merk),
     specification: normalizeText(row['Spesifikasi/Tipe'] ?? row.spesifikasi ?? row.specification),
-  }
-}
-
-function toPerlengkapanItemRow(row: any): ItemRow {
-  return {
-    id: normalizeText(row['Kode Item'] ?? row['Kode Item'] ?? row.id),
-    name: normalizeText(row['Deskripsi Item'] ?? row['Nama Item'] ?? row.name),
-    unit: normalizeText(row['QTY Satuan'] ? 'pcs' : (row.Satuan ?? row.SATUAN ?? row.unit ?? row.satuan)) || 'pcs',
-    price: normalizeNumber(row['Harga Satuan'] ?? row.price),
-    coa: normalizeText(row.COA ?? row.coa),
-    coaDescription: normalizeText(row['Deskripsi COA'] ?? row['DeskripsiCOA'] ?? row.coaDescription),
-    category: normalizeText(row['Kategori Item'] ?? row.category),
   }
 }
 
@@ -90,8 +78,4 @@ export async function fetchItems(): Promise<ItemRow[]> {
 
 export async function fetchInventoryRequestItems(): Promise<ItemRow[]> {
   return fetchItemsFrom(WEBHOOK_LIST_PENGAJUAN_INVENTARIS, toInventoryItemRow)
-}
-
-export async function fetchPerlengkapanItems(): Promise<ItemRow[]> {
-  return fetchItemsFrom(WEBHOOK_GET_DATABASE_PERLENGKAPAN, toPerlengkapanItemRow)
 }

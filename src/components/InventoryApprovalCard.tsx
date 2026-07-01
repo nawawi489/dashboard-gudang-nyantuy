@@ -42,7 +42,7 @@ export default function InventoryApprovalCard(props: Props) {
           <div className="approval-card__title">{props.itemName}</div>
           {props.itemId ? <div className="approval-card__itemid">{props.itemId}</div> : <span />}
         </div>
-        <div className="approval-card__subtitle">{props.cabang}</div>
+        <div className="approval-card__subtitle">{props.outlet}</div>
         {props.date ? <div className="approval-card__subtitle">{props.date}</div> : <span />}
         {props.spesifikasi ? (
           <div className="approval-card__subtitle" style={{ fontStyle: 'italic' }}>

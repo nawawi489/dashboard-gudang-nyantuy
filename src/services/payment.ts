@@ -16,7 +16,7 @@ export async function submitPaymentProof(
 ): Promise<boolean> {
   const formData = new FormData()
   formData.append('trxId', trxId)
-  formData.append('cabang', cabang)
+  formData.append('outlet', cabang)
   formData.append('file', file)
   if (nomorInvoice !== undefined) formData.append('nomorInvoice', nomorInvoice)
   if (metadata?.itemName) formData.append('itemName', metadata.itemName)
@@ -56,7 +56,7 @@ export async function submitStrukKaspinProof(
 ): Promise<boolean> {
   const formData = new FormData()
   formData.append('trxId', trxId)
-  formData.append('cabang', cabang)
+  formData.append('outlet', cabang)
   formData.append('file', file)
 
   if (nomorInvoice !== undefined) formData.append('nomorInvoice', nomorInvoice)

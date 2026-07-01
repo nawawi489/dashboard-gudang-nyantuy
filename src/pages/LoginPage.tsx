@@ -20,23 +20,13 @@ export default function LoginPage() {
 
     const inputUser = username.trim()
     const inputPass = password.trim()
-    const validUser = (import.meta.env.VITE_AUTH_USERNAME || '').trim()
-    const validPass = (import.meta.env.VITE_AUTH_PASSWORD || '').trim()
 
-    console.log('Login Debug:', {
-      inputUser,
-      inputPass,
-      envUser: validUser,
-      envPass: validPass,
-      env: import.meta.env
-    })
-
-    if (inputUser !== validUser || inputPass !== validPass) {
+    const result = login(inputUser, inputPass)
+    if (!result) {
       setError('Username atau password salah')
       return
     }
-    
-    login(inputUser)
+
     navigate('/')
   }
 
@@ -56,7 +46,7 @@ export default function LoginPage() {
       }}>
         <div className="panel" style={{ width: '100%', maxWidth: '400px', padding: '32px' }}>
           <div style={{ textAlign: 'center', marginBottom: '24px' }}>
-            <h1 style={{ margin: 0, fontSize: '24px', color: 'var(--primary)' }}>Gudang Nyantuy</h1>
+            <h1 style={{ margin: 0, fontSize: '24px', color: 'var(--primary)' }}>Warehouse Nyantuy</h1>
             <p style={{ margin: '8px 0 0', color: 'var(--muted)' }}>Silakan login untuk melanjutkan</p>
           </div>
 

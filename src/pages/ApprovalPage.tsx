@@ -183,7 +183,7 @@ export default function ApprovalPage() {
               date={i.date}
               itemId={i.itemId}
               itemName={i.itemName}
-              cabang={i.outlet}
+              outlet={i.outlet}
               supplier={i.supplier}
               unit={i.unit}
               quantity={i.quantity}

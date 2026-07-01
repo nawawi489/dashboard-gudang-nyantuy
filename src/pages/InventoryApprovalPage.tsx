@@ -268,7 +268,7 @@ export default function InventoryApprovalPage() {
                 date={i.date}
                 itemId={i.itemId}
                 itemName={i.itemName}
-                cabang={i.outlet}
+                outlet={i.outlet}
                 spesifikasi={i.spesifikasi}
                 quantity={i.quantity}
                 totalEstimasiBiaya={i.totalEstimasiBiaya}

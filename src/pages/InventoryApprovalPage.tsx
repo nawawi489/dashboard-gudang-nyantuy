@@ -96,7 +96,11 @@ export default function InventoryApprovalPage() {
       return true
     })
 
-    if (cabang) base = base.filter(i => i.cabang === cabang)
+    // Client-side filter lebih robust (trim + lowercase)
+    if (cabang) {
+      const target = cabang.toLowerCase().trim()
+      base = base.filter(i => (i.outlet || '').toLowerCase().trim() === target)
+    }
 
     return base
   }, [items, cabang, decided])
@@ -154,7 +158,7 @@ export default function InventoryApprovalPage() {
     decision: Decision,
     reason?: string,
   ) => {
-    if (!item.trxId || !item.itemId || !item.cabang) {
+    if (!item.trxId || !item.itemId || !item.outlet) {
       alert('Data tidak lengkap untuk approval inventaris')
       return
     }
@@ -169,7 +173,7 @@ export default function InventoryApprovalPage() {
       await submitInventoryApproval({
         trxId: item.trxId,
         itemId: item.itemId,
-        cabang: item.cabang,
+        outlet: item.outlet,
         status: decision,
         alasan: decision === 'Tolak' ? reason : undefined,
       })
@@ -264,7 +268,7 @@ export default function InventoryApprovalPage() {
                 date={i.date}
                 itemId={i.itemId}
                 itemName={i.itemName}
-                cabang={i.cabang}
+                cabang={i.outlet}
                 spesifikasi={i.spesifikasi}
                 quantity={i.quantity}
                 totalEstimasiBiaya={i.totalEstimasiBiaya}

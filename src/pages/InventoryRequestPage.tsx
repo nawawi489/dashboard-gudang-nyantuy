@@ -64,32 +64,28 @@ export default function InventoryRequestPage() {
           </div>
           <div className="control">
             <label className="label">Jumlah</label>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <input
-                type="number"
-                min={1}
-                className="input"
-                value={quantity}
-                onChange={handleQuantityChange}
-                style={{ flex: 1 }}
-              />
-              <span
-                style={{
-                  whiteSpace: 'nowrap',
-                  fontSize: '0.9rem',
-                  fontWeight: 600,
-                  color: 'var(--primary)',
-                  padding: '8px 10px',
-                  background: 'var(--primary-soft, rgba(0,0,0,0.04))',
-                  borderRadius: 6,
-                  minWidth: 110,
-                  textAlign: 'right',
-                }}
-                title="Harga Satuan"
-              >
-                {price > 0 ? formatIDR(price) : 'Harga -'}
-              </span>
-            </div>
+            <input
+              type="number"
+              min={1}
+              className="input"
+              value={quantity}
+              onChange={handleQuantityChange}
+            />
+          </div>
+          <div className="control">
+            <label className="label">Total Harga</label>
+            <input
+              className="input"
+              readOnly
+              value={price > 0 ? formatIDR(price * (Number(quantity) || 0)) : 'Harga -'}
+              title="Total Harga"
+              style={{
+                fontWeight: 600,
+                color: 'var(--primary)',
+                background: 'var(--primary-soft, rgba(0,0,0,0.04))',
+                textAlign: 'right',
+              }}
+            />
           </div>
           <div className="control" style={{ gridColumn: '1 / -1' }}>
             <label className="label">Keterangan</label>

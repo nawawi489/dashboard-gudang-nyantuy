@@ -2,35 +2,19 @@ import { useMemo } from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../components/Header'
 import { useAuth } from '../contexts/AuthContext'
-
-type MenuItem = {
-  key: string
-  title: string
-  subtitle: string
-  emoji: string
-  href: string
-}
+import { ROLE_MENUS, ROLE_LABEL, type MenuItem } from '../constants'
 
 export function HomePage() {
-  const { logout } = useAuth()
-  const items = useMemo<MenuItem[]>(
-    () => [
-      { key: 'pr', title: 'Permintaan PO', subtitle: 'Ajukan kebutuhan pembelian', emoji: '📝', href: '/pr' },
-      { key: 'approval', title: 'Approval PO', subtitle: 'Cek status pesanan PO', emoji: '✅', href: '/approval' },
-      { key: 'struk', title: 'Input Struk', subtitle: 'Upload bukti struk pembelian', emoji: '📸', href: '/struk' },
-      { key: 'bill', title: 'Tagihan PO', subtitle: 'Input bukti pembayaran tagihan PO', emoji: '🧾', href: '/bill' },
-      { key: 'inventory-request', title: 'Permintaan Inventaris', subtitle: 'Ajukan kebutuhan inventaris', emoji: '📦', href: '/inventory-request' },
-      { key: 'approval-inventory', title: 'Approval Permintaan Inventaris', subtitle: 'Cek & setujui pengajuan inventaris', emoji: '🗂️', href: '/approval-inventory' },
-      { key: 'perlengkapan', title: 'Permintaan Perlengkapan', subtitle: 'Ajukan kebutuhan perlengkapan', emoji: '📦', href: '/perlengkapan' },
-      // { key: 'plafon', title: 'Plafon', subtitle: 'Update sisa modal belanja', emoji: '💰', href: '/plafon' },
-    ],
-    [],
-  )
+  const { logout, role, user } = useAuth()
+  const items = useMemo<MenuItem[]>(() => {
+    if (!role) return []
+    return ROLE_MENUS[role]
+  }, [role])
 
   return (
     <div className="container">
       <Header
-        title="Gudang Nyantuy"
+        title="Warehouse Nyantuy"
         rightSlot={(
           <button className="user" aria-label="Logout" title="Logout" onClick={logout}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -44,20 +28,30 @@ export function HomePage() {
 
       <section className="hero">
         <h1>Menu Utama</h1>
-        <p>Pilih modul untuk melanjutkan</p>
+        <p>
+          {role
+            ? `Login sebagai ${ROLE_LABEL[role]}${user ? ` (${user})` : ''}`
+            : 'Pilih modul untuk melanjutkan'}
+        </p>
       </section>
 
-      <section className="grid">
-        {items.map((item) => (
-          <Link key={item.key} to={item.href} className="card" aria-label={item.title}>
-            <div className="card-icon" aria-hidden="true">{item.emoji}</div>
-            <div className="card-body">
-              <div className="card-title">{item.title}</div>
-              <div className="card-subtitle">{item.subtitle}</div>
-            </div>
-          </Link>
-        ))}
-      </section>
+      {items.length === 0 ? (
+        <section className="hero">
+          <p>Belum ada menu untuk role ini.</p>
+        </section>
+      ) : (
+        <section className="grid">
+          {items.map((item) => (
+            <Link key={item.key} to={item.href} className="card" aria-label={item.title}>
+              <div className="card-icon" aria-hidden="true">{item.emoji}</div>
+              <div className="card-body">
+                <div className="card-title">{item.title}</div>
+                <div className="card-subtitle">{item.subtitle}</div>
+              </div>
+            </Link>
+          ))}
+        </section>
+      )}
     </div>
   )
 }

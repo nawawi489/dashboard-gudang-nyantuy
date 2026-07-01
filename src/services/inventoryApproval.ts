@@ -32,7 +32,7 @@ export async function fetchInventoryApprovalItems(
   try {
     let url = WEBHOOK_LIST_PENGAJUAN_PERALATAN
     const separator = url.includes('?') ? '&' : '?'
-    url = `${url}${separator}cabang=${encodeURIComponent(cabang || '')}`
+    url = `${url}${separator}outlet=${encodeURIComponent(cabang || '')}`
 
     const res = await fetch(url, {
       headers: { Accept: 'application/json' },
@@ -58,6 +58,7 @@ export async function fetchInventoryApprovalItems(
 
     return list.map((row: any): InventoryApprovalItem => {
       const rowCabang =
+        row.outlet ||
         row.cabang ||
         row.Cabang ||
         row.CABANG ||
@@ -81,7 +82,7 @@ export async function fetchInventoryApprovalItems(
         trxId: normalizeText(trxIdRaw || `ROW-${row.row_number ?? Math.random().toString(36).slice(2, 8)}`),
         date: normalizeText(row['Tanggal Pengajuan'] || row['tanggal pengajuan'] || row.date || ''),
         tanggalTerima: normalizeText(row['Tanggal Terima'] || row['tanggal terima'] || ''),
-        cabang: normalizeText(rowCabang),
+        outlet: normalizeText(rowCabang),
         itemId: normalizeText(itemIdRaw),
         itemName: normalizeText(
           row['Nama Peralatan'] ||

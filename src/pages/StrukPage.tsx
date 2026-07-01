@@ -55,7 +55,7 @@ export default function StrukPage() {
 
   const groupedItems = useMemo<BillGroup[]>(() => {
     const filtered = items.filter(item => {
-      const matchesCabang = !cabangFilter || item.cabang === cabangFilter
+      const matchesCabang = !cabangFilter || (item.outlet || '').toLowerCase().trim() === cabangFilter.toLowerCase().trim()
       const inv = (item.nomorInvoice || '').trim()
       const hasInvoice = inv.length > 0
       const isInputKaspin = item.inputKaspin === false
@@ -66,7 +66,7 @@ export default function StrukPage() {
       .map((item) => ({
         invoice: (item.nomorInvoice || '').trim() || 'UNKNOWN',
         trxId: item.trxId || 'UNKNOWN',
-        cabang: item.cabang || 'UNKNOWN',
+        cabang: item.outlet || 'UNKNOWN',
         items: [item],
         date: item.date,
       }))
@@ -89,7 +89,7 @@ export default function StrukPage() {
       ...prev,
       isOpen: true,
       trxId: item.trxId,
-      cabang: item.cabang,
+      cabang: item.outlet,
       invoice: item.nomorInvoice || '',
       itemName: item.itemName,
       hargaKonversiResep: item.hargaKonversiResep,

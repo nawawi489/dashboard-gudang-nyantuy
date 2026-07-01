@@ -51,7 +51,7 @@ export default function BillPOPage() {
     const filtered = items.filter(item => {
       const isHutang = (item.statusPembayaran || '').toLowerCase() === 'hutang'
       const isValidStatus = ['Terima', 'Pending'].includes(item.status || '')
-      const matchesCabang = !cabangFilter || item.cabang === cabangFilter
+      const matchesCabang = !cabangFilter || (item.outlet || '').toLowerCase().trim() === cabangFilter.toLowerCase().trim()
       const inv = (item.nomorInvoice || '').trim()
       const hasInvoice = inv.length > 0
       return isHutang && isValidStatus && matchesCabang && hasInvoice
@@ -61,7 +61,7 @@ export default function BillPOPage() {
     const groups: Record<string, ApprovalItem[]> = {}
     filtered.forEach(item => {
       const inv = (item.nomorInvoice || '').trim() || 'UNKNOWN'
-      const cabang = item.cabang || 'UNKNOWN'
+      const cabang = item.outlet || 'UNKNOWN'
       const key = `${inv}||${cabang}`
       
       if (!groups[key]) groups[key] = []

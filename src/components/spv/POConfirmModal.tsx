@@ -215,7 +215,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-4 bg-black/60 backdrop-blur-sm">
-      <div className="@container bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
         <div className="flex items-center justify-between p-4 sm:p-6 border-b border-gray-100 bg-gray-50 shrink-0">
           <div>
             <h2 className="text-xl font-bold text-gray-800">Konfirmasi Barang</h2>
@@ -236,7 +236,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
         )}
 
         <div className="p-4 sm:p-6 space-y-6 overflow-y-auto flex-1">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-1 @2xl:grid-cols-2 gap-3">
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-1 md:grid-cols-2 gap-3">
             <div>
               <p className="text-xs font-semibold text-blue-600 uppercase">Nama Barang</p>
               <p className="font-medium text-gray-900">{item.nama_barang}</p>
@@ -294,7 +294,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                   </h4>
                </div>
 
-               <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-3">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                  <div>
                    <label className={`block text-sm font-semibold mb-1.5 ${scanResult ? 'text-yellow-900' : 'text-gray-700'}`}>Jumlah Diterima</label>
                    <input
@@ -330,15 +330,15 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                  />
                </div>
 
-               <div className="pt-4 border-t border-yellow-200/60 grid grid-cols-1 @2xl:grid-cols-2 gap-3">
-                  <div className="@2xl:col-span-2">
+               <div className="pt-4 border-t border-yellow-200/60 grid grid-cols-1 md:grid-cols-2 gap-3">
+                  <div className="md:col-span-2">
                     <p className="text-xs font-bold text-yellow-700 uppercase tracking-wider mb-2">Rincian Harga (Wajib Diisi)</p>
 
                     {Array.isArray(scanResult) && scanResult.map((scanItem, idx) => (
                       <div key={idx} className={idx > 0 ? 'mt-4 pt-4 border-t border-yellow-100' : ''}>
                         {scanResult.length > 1 && <p className="text-xs font-semibold text-yellow-800 mb-2">Item #{idx + 1}</p>}
-                        <div className="grid grid-cols-1 @2xl:grid-cols-2 gap-3">
-                          <div className="@2xl:col-span-2">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                          <div className="md:col-span-2">
                             <label className="block text-xs font-medium text-gray-600 mb-1">Nama Barang Scan <span className="text-red-500">*</span></label>
                             <input
                               type="text"
@@ -354,7 +354,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                           </div>
 
                           {idx === 0 && (
-                            <div className="@2xl:col-span-2 grid grid-cols-1 @2xl:grid-cols-2 gap-3">
+                            <div className="md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-3">
                                <div>
                                  <label className="block text-xs font-medium text-gray-600 mb-1">Jumlah Barang di Nota <span className="text-red-500">*</span></label>
                                  <input
@@ -474,7 +474,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                     ))}
                   </div>
 
-                  <div className="@2xl:col-span-2 border-t border-yellow-200/60 pt-2 mt-2"></div>
+                  <div className="md:col-span-2 border-t border-yellow-200/60 pt-2 mt-2"></div>
 
                    <div>
                     <label className="block text-xs font-medium text-gray-600 mb-1">Pajak <span className="text-red-500">*</span></label>

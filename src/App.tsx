@@ -16,6 +16,7 @@ import InventoryRequestPage from './pages/InventoryRequestPage'
 import ConfirmInventoryRequestPage from './pages/ConfirmInventoryRequestPage'
 import InventoryRequestSuccessPage from './pages/InventoryRequestSuccessPage'
 import InventoryApprovalPage from './pages/InventoryApprovalPage'
+import BillInventoryPage from './pages/BillInventoryPage'
 import Footer from './components/Footer'
 import { ROUTE_ROLES } from './constants'
 
@@ -97,6 +98,7 @@ export default function App() {
               <Route path="/confirm-inventory-request" element={<ConfirmInventoryRequestPage />} />
               <Route path="/inventory-request-success" element={<InventoryRequestSuccessPage />} />
               <Route path="/approval-inventory" element={<InventoryApprovalPage />} />
+              <Route path="/bill-inventory" element={<BillInventoryPage />} />
 
               <Route element={<SpvOutletGuard />}>
                 <Route path="/spv/outlet" element={<OutletSelectorPage />} />

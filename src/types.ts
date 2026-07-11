@@ -109,6 +109,8 @@ export type InventoryApprovalItem = {
   verifikasiSpv?: boolean
   buktiDokumentasi?: string
   verifikasiInputAset?: boolean
+  statusPembayaran?: string
+  nomorInvoice?: string
 }
 
 export type InventoryApprovalPayload = {

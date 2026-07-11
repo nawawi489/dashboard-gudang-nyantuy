@@ -215,7 +215,7 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm">
-      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden">
+      <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl max-h-[90vh] flex flex-col overflow-hidden m-4 md:m-0">
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
           <div>
             <h2 className="text-xl font-bold text-gray-800">Konfirmasi Barang</h2>
@@ -235,8 +235,8 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
           </div>
         )}
 
-        <div className="p-6 space-y-6 overflow-y-auto flex-1">
-          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-2 gap-4">
+        <div className="p-4 md:p-6 space-y-6 overflow-y-auto flex-1">
+          <div className="bg-blue-50 p-4 rounded-lg border border-blue-100 grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <p className="text-xs font-semibold text-blue-600 uppercase">Nama Barang</p>
               <p className="font-medium text-gray-900">{item.nama_barang}</p>
@@ -286,60 +286,53 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
             </div>
 
             {showDetails && (
-            <div className={`p-5 rounded-xl border space-y-5 transition-all duration-300 ${scanResult ? 'bg-yellow-50 border-yellow-200' : 'bg-gray-50 border-gray-200'}`}>
-               <div className="flex items-center gap-2 pb-2 border-b border-gray-200/50">
-                  <span className={`w-2.5 h-2.5 rounded-full ${scanResult ? 'bg-yellow-500' : 'bg-blue-500'}`}></span>
-                  <h4 className={`text-base font-bold ${scanResult ? 'text-yellow-900' : 'text-gray-800'}`}>
-                    Detail Konfirmasi PO
-                  </h4>
-               </div>
-
-               <div className="grid grid-cols-2 gap-4">
+            <div className="p-5 rounded-xl border border-amber-200 bg-amber-50/80 space-y-5">
+               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                  <div>
-                   <label className={`block text-sm font-semibold mb-1.5 ${scanResult ? 'text-yellow-900' : 'text-gray-700'}`}>Jumlah Diterima</label>
+                   <label className="block text-sm font-semibold mb-1.5 text-gray-700">Jumlah Diterima</label>
                    <input
                       type="number"
                       min="0"
                       value={jumlahDiterima}
                       onChange={(e) => setJumlahDiterima(e.target.value)}
-                      className={`w-full px-4 py-2 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${scanResult ? 'border-yellow-300 focus:border-yellow-500' : 'border-gray-300 focus:border-blue-500'}`}
+                      className="w-full px-4 py-2.5 bg-white text-gray-900 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
                       required
                    />
                  </div>
                  <div>
-                   <label className={`block text-sm font-semibold mb-1.5 ${scanResult ? 'text-yellow-900' : 'text-gray-700'}`}>Satuan</label>
+                   <label className="block text-sm font-semibold mb-1.5 text-gray-700">Satuan</label>
                    <input
                       type="text"
                       value={satuanDiterima}
                       onChange={(e) => setSatuanDiterima(e.target.value)}
-                      className={`w-full px-4 py-2 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${scanResult ? 'border-yellow-300 focus:border-yellow-500' : 'border-gray-300 focus:border-blue-500'}`}
+                      className="w-full px-4 py-2.5 bg-white text-gray-900 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
                       required
                    />
                  </div>
                </div>
 
                <div>
-                 <label className={`block text-sm font-semibold mb-1.5 ${scanResult ? 'text-yellow-900' : 'text-gray-700'}`}>Nomor Invoice <span className="text-red-500">*</span></label>
+                 <label className="block text-sm font-semibold mb-1.5 text-gray-700">Nomor Invoice <span className="text-red-500">*</span></label>
                  <input
                     type="text"
                     value={nomorInvoice}
                     onChange={(e) => setNomorInvoice(e.target.value)}
-                    className={`w-full px-4 py-2 bg-white text-gray-900 border rounded-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${scanResult ? 'border-yellow-300 focus:border-yellow-500' : 'border-gray-300 focus:border-blue-500'}`}
+                    className="w-full px-4 py-2.5 bg-white text-gray-900 border border-amber-300 rounded-lg focus:ring-2 focus:ring-amber-500 outline-none"
                     placeholder="Contoh: INV-2025-001"
                     required
                  />
                </div>
 
-               <div className="pt-4 border-t border-yellow-200/60 grid grid-cols-2 gap-4">
+               <div className="pt-4 border-t border-amber-200/60 grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="col-span-2">
-                    <p className="text-xs font-bold text-yellow-700 uppercase tracking-wider mb-2">Rincian Harga (Wajib Diisi)</p>
+                    <p className="text-sm font-bold text-amber-800 mb-4">RINCIAN HARGA (WAJIB DIISI)</p>
 
                     {Array.isArray(scanResult) && scanResult.map((scanItem, idx) => (
-                      <div key={idx} className={idx > 0 ? 'mt-4 pt-4 border-t border-yellow-100' : ''}>
-                        {scanResult.length > 1 && <p className="text-xs font-semibold text-yellow-800 mb-2">Item #{idx + 1}</p>}
-                        <div className="grid grid-cols-2 gap-4">
+                      <div key={idx} className={idx > 0 ? 'mt-4 pt-4 border-t border-amber-200' : ''}>
+                        {scanResult.length > 1 && <p className="text-xs font-semibold text-amber-800 mb-2">Item #{idx + 1}</p>}
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                           <div className="col-span-2">
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Nama Barang Scan <span className="text-red-500">*</span></label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Nama Barang Scan <span className="text-red-500">*</span></label>
                             <input
                               type="text"
                               value={scanItem.nama_barang || ''}
@@ -348,31 +341,31 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                                 newItems[idx] = { ...newItems[idx], nama_barang: e.target.value }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                               required
                             />
                           </div>
 
                           {idx === 0 && (
-                            <div className="col-span-2 grid grid-cols-2 gap-4">
+                            <div className="col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
                                <div>
-                                 <label className="block text-xs font-medium text-gray-600 mb-1">Jumlah Barang di Nota <span className="text-red-500">*</span></label>
+                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Jumlah Barang di Nota <span className="text-red-500">*</span></label>
                                  <input
                                     type="number"
                                     min="0"
                                     value={jumlahBarangNota}
                                     onChange={(e) => setJumlahBarangNota(e.target.value)}
-                                    className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                                    className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                                     required
                                  />
                                </div>
                                <div>
-                                 <label className="block text-xs font-medium text-gray-600 mb-1">Satuan Barang di Nota <span className="text-red-500">*</span></label>
+                                 <label className="block text-sm font-medium text-gray-700 mb-1.5">Satuan Barang di Nota <span className="text-red-500">*</span></label>
                                  <input
                                     type="text"
                                     value={satuan}
                                     onChange={(e) => setSatuan(e.target.value)}
-                                    className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                                    className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                                     placeholder="Contoh: Karton, Pcs"
                                     required
                                  />
@@ -381,91 +374,89 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                           )}
 
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Harga Satuan <span className="text-red-500">*</span></label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Harga Satuan <span className="text-red-500">*</span></label>
                             <input
-                              type="number"
-                              value={scanItem.harga_satuan}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.harga_satuan || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], harga_satuan: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                               required
-                              min="0"
-                              step="any"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Total Harga <span className="text-red-500">*</span></label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Total Harga <span className="text-red-500">*</span></label>
                             <input
-                              type="number"
-                              value={scanItem.total_harga}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.total_harga || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], total_harga: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                               required
-                              min="0"
-                              step="any"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Diskon 1</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Diskon 1</label>
                             <input
-                              type="number"
-                              value={scanItem.diskon_1 || 0}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.diskon_1 || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], diskon_1: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
-                              step="any"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Diskon 2</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Diskon 2</label>
                             <input
-                              type="number"
-                              value={scanItem.diskon_2 || 0}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.diskon_2 || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], diskon_2: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
-                              step="any"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Diskon 3</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Diskon 3</label>
                             <input
-                              type="number"
-                              value={scanItem.diskon_3 || 0}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.diskon_3 || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], diskon_3: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
-                              step="any"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                             />
                           </div>
                           <div>
-                            <label className="block text-xs font-medium text-gray-600 mb-1">Diskon 4</label>
+                            <label className="block text-sm font-medium text-gray-700 mb-1.5">Diskon 4</label>
                             <input
-                              type="number"
-                              value={scanItem.diskon_4 || 0}
+                              type="text"
+                              inputMode="numeric"
+                              value={scanItem.diskon_4 || ''}
                               onChange={(e) => {
                                 const newItems = [...scanResult]
                                 newItems[idx] = { ...newItems[idx], diskon_4: parseFloat(e.target.value) || 0 }
                                 setScanResult(newItems)
                               }}
-                              className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
-                              step="any"
+                              className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                             />
                           </div>
 
@@ -474,59 +465,57 @@ const POConfirmModal = ({ item, open, onClose, onSubmit }: POConfirmModalProps) 
                     ))}
                   </div>
 
-                  <div className="col-span-2 border-t border-yellow-200/60 pt-2 mt-2"></div>
+                  <div className="col-span-2 border-t border-amber-200 pt-2 mt-2"></div>
 
                    <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Pajak <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Pajak <span className="text-red-500">*</span></label>
                     <input
-                      type="number"
-                      value={scanResult && scanResult.length > 0 ? scanResult[0].pajak : 0}
+                      type="text"
+                      inputMode="numeric"
+                      value={scanResult && scanResult.length > 0 ? scanResult[0].pajak : ''}
                       onChange={(e) => {
                         if (scanResult) {
                           const newItems = scanResult.map(scanItem => ({...scanItem, pajak: parseFloat(e.target.value) || 0}))
                           setScanResult(newItems)
                         }
                       }}
-                      className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                      className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                       required
-                      min="0"
-                      step="any"
                     />
                   </div>
                    <div>
-                    <label className="block text-xs font-medium text-gray-600 mb-1">Grand Total <span className="text-red-500">*</span></label>
+                    <label className="block text-sm font-medium text-gray-700 mb-1.5">Grand Total <span className="text-red-500">*</span></label>
                     <input
-                      type="number"
-                      value={scanResult && scanResult.length > 0 ? scanResult[0].grand_total : 0}
+                      type="text"
+                      inputMode="numeric"
+                      value={scanResult && scanResult.length > 0 ? scanResult[0].grand_total : ''}
                       onChange={(e) => {
                         if (scanResult) {
                           const newItems = scanResult.map(scanItem => ({...scanItem, grand_total: parseFloat(e.target.value) || 0}))
                           setScanResult(newItems)
                         }
                       }}
-                      className="w-full px-3 py-1.5 bg-white text-sm border border-yellow-300 rounded-md focus:border-yellow-500 outline-none"
+                      className="w-full px-4 py-2.5 bg-white text-sm border border-amber-300 rounded-lg focus:border-amber-500 outline-none"
                       required
-                      min="1"
-                      step="any"
                     />
                   </div>
                </div>
 
-               <div>
-                 <label className={`block text-sm font-semibold mb-1.5 ${scanResult ? 'text-yellow-900' : 'text-gray-700'}`}>Produk Free (opsional)</label>
+               <div className="pt-3 border-t border-amber-200">
+                 <label className="block text-sm font-semibold mb-1.5 text-amber-800">Produk Free (opsional)</label>
                  <div className="flex items-center">
                    <input
                      type="number"
                      min="0"
                      value={produkFree}
                      onChange={(e) => setProdukFree(e.target.value)}
-                     className={`flex-1 px-4 py-2 bg-white text-gray-900 border rounded-l-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${scanResult ? 'border-yellow-300 focus:border-yellow-500' : 'border-gray-300 focus:border-blue-500'}`}
+                     className="flex-1 px-4 py-2 bg-white text-gray-900 border border-amber-300 rounded-l-lg focus:border-amber-500 outline-none"
                      placeholder="input produk free jika ada"
                    />
                    <select
                      value={produkFreeUnit}
                      onChange={(e) => setProdukFreeUnit(e.target.value)}
-                     className={`px-3 h-[42px] bg-white text-gray-900 border border-l-0 rounded-r-lg focus:ring-2 focus:ring-blue-500 outline-none transition-all ${scanResult ? 'border-yellow-300 focus:border-yellow-500' : 'border-gray-300 focus:border-blue-500'}`}
+                     className="px-3 h-[46px] bg-white text-gray-900 border border-l-0 border-amber-300 rounded-r-lg focus:border-amber-500 outline-none"
                    >
                      <option value="">Satuan</option>
                      <option value="Pcs">Pcs</option>

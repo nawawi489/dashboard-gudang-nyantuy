@@ -32,6 +32,7 @@ export const ROLE_MENUS: Record<Role, MenuItem[]> = {
     { key: 'inventory-request', title: 'Permintaan Inventaris', subtitle: 'Ajukan kebutuhan inventaris', emoji: '📦', href: '/inventory-request' },
     { key: 'approval-inventory', title: 'Approval Permintaan Inventaris', subtitle: 'Cek & setujui pengajuan inventaris', emoji: '🗂️', href: '/approval-inventory' },
     { key: 'bill-inventory', title: 'Tagihan Inventaris', subtitle: 'Input bukti pembayaran tagihan inventaris', emoji: '🧾', href: '/bill-inventory' },
+    { key: 'perlengkapan', title: 'Permintaan Perlengkapan', subtitle: 'Ajukan kebutuhan perlengkapan', emoji: '🧰', href: '/perlengkapan' },
   ],
   spv: [
     { key: 'spv-home', title: 'Admin Warehouse Dashboard', subtitle: 'Pilih outlet dan akses menu Admin Warehouse', emoji: '🛡️', href: '/spv/home' },
@@ -50,6 +51,9 @@ export const ROUTE_ROLES: Record<string, Role[]> = {
   '/approval': ['purchasing'],
   '/approval-inventory': ['purchasing'],
   '/bill-inventory': ['purchasing'],
+  '/perlengkapan': ['purchasing'],
+  '/confirm-perlengkapan': ['purchasing'],
+  '/perlengkapan-success': ['purchasing'],
   // SPV routes
   '/spv/home': ['spv'],
   '/spv/outlet': ['spv'],

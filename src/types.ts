@@ -214,6 +214,7 @@ export interface PeralatanConfirmData {
   jumlah_diterima: number
   outlet: string
   foto_dokumentasi: File | null
+  foto_dokumentasi_nota: File | null
   keterangan_spv: string
   tanggal_konfirmasi: string
   status: 'DITERIMA' | 'KURANG'

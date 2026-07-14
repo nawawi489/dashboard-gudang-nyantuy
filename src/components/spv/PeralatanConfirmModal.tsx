@@ -11,6 +11,7 @@ interface PeralatanConfirmModalProps {
     jumlahDiterima: number
     keterangan: string
     fotoFile: File | null
+    fotoNotaFile: File | null
   }) => void
 }
 
@@ -18,6 +19,7 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
   const [jumlahDiterima, setJumlahDiterima] = useState<string>(String(item.qty))
   const [keterangan, setKeterangan] = useState<string>('')
   const [fotoFile, setFotoFile] = useState<File | null>(null)
+  const [fotoNotaFile, setFotoNotaFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
@@ -53,7 +55,8 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
 
     const jd = parseInt(jumlahDiterima)
     if (isNaN(jd) || jd < 0) { setError('Jumlah diterima tidak valid.'); return }
-    if (!fotoFile) { setError('Foto dokumentasi wajib diupload.'); return }
+    if (!fotoFile) { setError('Foto dokumentasi penerimaan wajib diupload.'); return }
+    if (!fotoNotaFile) { setError('Foto dokumentasi nota wajib diupload.'); return }
 
     setIsSubmitting(true)
     try {
@@ -61,6 +64,7 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
         jumlahDiterima: jd,
         keterangan,
         fotoFile,
+        fotoNotaFile,
       })
       localStorage.removeItem(`peralatan_draft_${item.id_pengajuan}`)
     } finally {
@@ -141,6 +145,7 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
             </div>
 
             <FileUpload label="Foto Dokumentasi Penerimaan" onFileSelect={setFotoFile} required />
+            <FileUpload label="Foto Dokumentasi Nota" onFileSelect={setFotoNotaFile} required />
           </form>
         </div>
 

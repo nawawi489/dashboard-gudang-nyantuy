@@ -54,6 +54,7 @@ const PeralatanDashboard = ({ outlet, onBack }: PeralatanDashboardProps) => {
     jumlahDiterima: number
     keterangan: string
     fotoFile: File | null
+    fotoNotaFile: File | null
   }) => {
     if (!active) return
     setSubmitting(true)
@@ -70,6 +71,7 @@ const PeralatanDashboard = ({ outlet, onBack }: PeralatanDashboardProps) => {
         jumlah_diterima: data.jumlahDiterima,
         outlet,
         foto_dokumentasi: data.fotoFile,
+        foto_dokumentasi_nota: data.fotoNotaFile,
         keterangan_spv: data.keterangan,
         tanggal_konfirmasi: getTodayDateJakarta(),
         status,

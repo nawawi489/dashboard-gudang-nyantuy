@@ -37,6 +37,9 @@ export const confirmPeralatan = async (data: PeralatanConfirmData): Promise<void
     if (data.foto_dokumentasi) {
       formData.append('foto_dokumentasi', data.foto_dokumentasi, data.foto_dokumentasi.name)
     }
+    if (data.foto_dokumentasi_nota) {
+      formData.append('foto_dokumentasi_nota', data.foto_dokumentasi_nota, data.foto_dokumentasi_nota.name)
+    }
 
     const response = await fetch(SPV_ENDPOINTS.CONFIRM_PERALATAN, { method: 'POST', body: formData })
     if (!response.ok) {

@@ -4,6 +4,7 @@ import { SpvOutletProvider, useSpvOutlet } from './contexts/SpvOutletContext'
 import LoginPage from './pages/LoginPage'
 import { HomePage } from './pages/HomePage'
 import PurchaseRequestPage from './pages/PurchaseRequestPage'
+import ManualPurchaseRequestPage from './pages/ManualPurchaseRequestPage'
 import VendorPage from './pages/VendorPage'
 import ApprovalPage from './pages/ApprovalPage'
 import ReportPage from './pages/ReportPage'
@@ -89,6 +90,7 @@ export default function App() {
             <Route element={<RoleGuard />}>
               <Route path="/" element={<HomePage />} />
               <Route path="/pr" element={<PurchaseRequestPage />} />
+              <Route path="/pr-manual" element={<ManualPurchaseRequestPage />} />
               <Route path="/vendor" element={<VendorPage />} />
               <Route path="/approval" element={<ApprovalPage />} />
               <Route path="/report" element={<ReportPage />} />

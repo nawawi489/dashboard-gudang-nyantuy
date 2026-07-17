@@ -10,7 +10,8 @@ export default function ConfirmInventoryRequestPage() {
   const { state } = useLocation()
   const data = (state as InventoryRequestSubmitPayload) || {
     date: '',
-    cabang: '',
+    supplier: '',
+    invoice: '',
     note: '',
     items: [],
   }
@@ -24,7 +25,8 @@ export default function ConfirmInventoryRequestPage() {
     try {
       const body = buildInventoryRequestBody(
         data.date,
-        data.cabang,
+        data.supplier,
+        data.invoice,
         data.note,
         items,
       )
@@ -32,7 +34,7 @@ export default function ConfirmInventoryRequestPage() {
       const response = await submitInventoryRequest(body)
 
       if (!response.ok) {
-        throw new Error('Gagal mengirim permintaan inventaris')
+        throw new Error('Gagal mengirim permintaan peralatan')
       }
 
       navigate('/inventory-request-success', {
@@ -43,11 +45,11 @@ export default function ConfirmInventoryRequestPage() {
             quantity: it.quantity,
             id: it.id,
           })),
-          cabang: data.cabang,
+          supplier: data.supplier,
         },
       })
     } catch (e) {
-      alert('Gagal mengirim permintaan inventaris. Coba lagi nanti.')
+      alert('Gagal mengirim permintaan peralatan. Coba lagi nanti.')
       console.error(e)
     } finally {
       setSubmitting(false)
@@ -59,18 +61,19 @@ export default function ConfirmInventoryRequestPage() {
       <Header title="Konfirmasi Permintaan" backTo="/inventory-request" />
 
       <section className="hero">
-        <h1>Konfirmasi Permintaan Inventaris</h1>
+        <h1>Konfirmasi Permintaan Peralatan</h1>
         <p>Mohon periksa kembali daftar permintaan Anda sebelum dikirim.</p>
       </section>
 
       <section className="panel" style={{ marginBottom: 16 }}>
         <div className="form-grid" style={{ marginBottom: 8 }}>
-          <div className="control"><div className="label">Tanggal Permintaan</div><div>{data.date || '-'}</div></div>
-          <div className="control"><div className="label">Cabang</div><div>{data.cabang || '-'}</div></div>
+          <div className="control"><div className="label">Tanggal Pengajuan</div><div>{data.date || '-'}</div></div>
+          <div className="control"><div className="label">Nama Supplier</div><div>{data.supplier || '-'}</div></div>
+          <div className="control"><div className="label">Nomor Invoice</div><div>{data.invoice || '-'}</div></div>
         </div>
         {data.note && (
           <div className="control" style={{ marginTop: 8 }}>
-            <div className="label">Keterangan</div>
+            <div className="label">Catatan</div>
             <div style={{ whiteSpace: 'pre-wrap' }}>{data.note}</div>
           </div>
         )}
@@ -78,7 +81,7 @@ export default function ConfirmInventoryRequestPage() {
 
       <section className="panel" style={{ marginBottom: 16 }}>
         <div style={{ fontWeight: 'bold', fontSize: '1.2rem', marginBottom: 12, borderBottom: '1px solid #eee', paddingBottom: 8 }}>
-          Daftar Barang
+          Daftar Peralatan
         </div>
 
         <div className="item-list">
@@ -88,15 +91,15 @@ export default function ConfirmInventoryRequestPage() {
             items.map((it) => (
               <div key={it.name + it.unit} className="control line-row-3 item-row">
                 <div>
-                  <div className="label">Nama Barang</div>
+                  <div className="label">Nama Peralatan</div>
                   <div>{it.name}</div>
                 </div>
                 <div>
-                  <div className="label">Satuan</div>
+                  <div className="label">Satuan Barang</div>
                   <div>{it.unit}</div>
                 </div>
                 <div>
-                  <div className="label">Jumlah</div>
+                  <div className="label">Qty</div>
                   <div>{it.quantity}</div>
                 </div>
               </div>
@@ -122,7 +125,7 @@ export default function ConfirmInventoryRequestPage() {
         <div style={{ maxWidth: 1120, margin: '0 auto' }}>
           <div className="form-grid" style={{ marginBottom: 16 }}>
             <div className="control"><div className="label">Total Item</div><div>{items.length}</div></div>
-            <div className="control"><div className="label">Total Quantity</div><div style={{ fontWeight: 700, color: 'var(--primary)' }}>{totalQuantity}</div></div>
+            <div className="control"><div className="label">Total Qty</div><div style={{ fontWeight: 700, color: 'var(--primary)' }}>{totalQuantity}</div></div>
           </div>
           <div className="actions" style={{ marginTop: 0 }}>
             <button className="btn" onClick={() => navigate('/inventory-request')}>Edit</button>

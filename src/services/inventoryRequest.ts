@@ -5,25 +5,24 @@ const INPUT_WEBHOOK_URL = WEBHOOK_INPUT_INVENTORY_REQUEST
 
 export type InventoryRequestPayload = {
   version: string
-  'Tanggal Permintaan': string
-  Outlet: string
-  Keterangan: string
+  'Tanggal Pengajuan': string
+  'Nama Supplier': string
+  'Nomor Invoice': string
+  Catatan: string
   Status: string
   Items: Array<{
-    'ID BARANG': string
-    'Nama Barang': string
-    SATUAN: string
-    JUMLAH: number
-    Merk: string
-    'Spesifikasi/Tipe': string
-    Harga: number
-    Subtotal: number
+    'ID Peralatan': string
+    'Nama Peralatan': string
+    'Satuan Barang': string
+    Qty: number
+    'Total Estimasi Biaya': number
   }>
 }
 
 export function buildInventoryRequestBody(
   date: string,
-  cabang: string,
+  supplier: string,
+  invoice: string,
   note: string,
   items: LineItem[],
 ): InventoryRequestPayload {
@@ -31,23 +30,18 @@ export function buildInventoryRequestBody(
 
   return {
     version: 'v1',
-    'Tanggal Permintaan': date,
-    Outlet: cabang,
-    Keterangan: note,
+    'Tanggal Pengajuan': date,
+    'Nama Supplier': supplier,
+    'Nomor Invoice': invoice,
+    Catatan: note,
     Status: 'Submitted',
-    Items: items.map(it => {
-      const harga = normalizePrice(it.price)
-      return {
-        'ID BARANG': it.id || '',
-        'Nama Barang': it.name,
-        SATUAN: it.unit,
-        JUMLAH: it.quantity,
-        Merk: it.brand || '',
-        'Spesifikasi/Tipe': it.specification || '',
-        Harga: harga,
-        Subtotal: harga * it.quantity,
-      }
-    }),
+    Items: items.map(it => ({
+      'ID Peralatan': it.id || '',
+      'Nama Peralatan': it.name,
+      'Satuan Barang': it.unit,
+      Qty: it.quantity,
+      'Total Estimasi Biaya': normalizePrice(it.price),
+    })),
   }
 }
 

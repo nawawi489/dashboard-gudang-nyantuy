@@ -108,6 +108,10 @@ export function usePerlengkapanRequest() {
     setQuantity(Number(e.target.value))
   }
 
+  const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUnit(e.target.value)
+  }
+
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPrice(Number(e.target.value))
   }
@@ -155,6 +159,7 @@ export function usePerlengkapanRequest() {
     handleDateChange,
     handleCabangChange,
     handleQuantityChange,
+    handleUnitChange,
     handlePriceChange,
     handleCoaChange,
     handleCoaDescriptionChange,

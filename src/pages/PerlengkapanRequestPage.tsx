@@ -22,6 +22,7 @@ export default function PerlengkapanRequestPage() {
     handleDateChange,
     handleCabangChange,
     handleQuantityChange,
+    handleUnitChange,
     handlePriceChange,
     handleCoaChange,
     handleCoaDescriptionChange,
@@ -61,11 +62,12 @@ export default function PerlengkapanRequestPage() {
             value={itemName}
             onChange={handleSelectItem}
             fetcher={fetchPerlengkapanItems}
+            allowCustom
           />
 
           <div className="control">
             <label className="label">Satuan</label>
-            <input className="input" placeholder="Contoh: pcs" value={unit} readOnly />
+            <input className="input" placeholder="Contoh: pcs" value={unit} onChange={handleUnitChange} />
           </div>
           <div className="control">
             <label className="label">COA</label>

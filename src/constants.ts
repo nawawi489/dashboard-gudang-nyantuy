@@ -1,5 +1,5 @@
 export const GUDANG = [
-  'Gudang Nyantuy Makassar',
+  'Toko Tayyibah',
 ] as const
 
 export type GudangName = typeof GUDANG[number]
@@ -26,13 +26,14 @@ export type MenuItem = {
 export const ROLE_MENUS: Record<Role, MenuItem[]> = {
   purchasing: [
     { key: 'pr', title: 'Permintaan PO', subtitle: 'Ajukan kebutuhan pembelian', emoji: '📝', href: '/pr' },
+    { key: 'pr-manual', title: 'Input Barang Baru Ke Database', subtitle: 'Input barang baru ke database', emoji: '✏️', href: '/pr-manual' },
     { key: 'approval', title: 'Approval PO', subtitle: 'Cek status pesanan PO', emoji: '✅', href: '/approval' },
     { key: 'struk', title: 'Input Struk', subtitle: 'Upload bukti struk pembelian', emoji: '📸', href: '/struk' },
     { key: 'bill', title: 'Tagihan PO', subtitle: 'Input bukti pembayaran tagihan PO', emoji: '🧾', href: '/bill' },
-    { key: 'inventory-request', title: 'Permintaan Inventaris', subtitle: 'Ajukan kebutuhan inventaris', emoji: '📦', href: '/inventory-request' },
+    { key: 'inventory-request', title: 'Permintaan Peralatan', subtitle: 'Ajukan kebutuhan peralatan', emoji: '📦', href: '/inventory-request' },
     { key: 'approval-inventory', title: 'Approval Permintaan Inventaris', subtitle: 'Cek & setujui pengajuan inventaris', emoji: '🗂️', href: '/approval-inventory' },
     { key: 'bill-inventory', title: 'Tagihan Inventaris', subtitle: 'Input bukti pembayaran tagihan inventaris', emoji: '🧾', href: '/bill-inventory' },
-    { key: 'perlengkapan', title: 'Permintaan Perlengkapan', subtitle: 'Ajukan kebutuhan perlengkapan', emoji: '🧰', href: '/perlengkapan' },
+    { key: 'perlengkapan', title: 'Realisasi Perlengkapan', subtitle: 'Input Realisasi Perlengkapan', emoji: '🧰', href: '/perlengkapan' },
   ],
   spv: [
     { key: 'spv-home', title: 'Admin Warehouse Dashboard', subtitle: 'Pilih outlet dan akses menu Admin Warehouse', emoji: '🛡️', href: '/spv/home' },
@@ -43,6 +44,7 @@ export const ROLE_MENUS: Record<Role, MenuItem[]> = {
 // dianggap boleh diakses semua role yang sudah login.
 export const ROUTE_ROLES: Record<string, Role[]> = {
   '/pr': ['purchasing'],
+  '/pr-manual': ['purchasing'],
   '/struk': ['purchasing'],
   '/bill': ['purchasing'],
   '/inventory-request': ['purchasing'],
@@ -63,7 +65,7 @@ export const ROUTE_ROLES: Record<string, Role[]> = {
 
 // --- SPV Constants ---
 export const SPV_OUTLETS = [
-  'Gudang Nyantuy Makassar',
+  'Toko Tayyibah',
 ] as const
 
 export const SPV_MAX_PHOTOS = 1

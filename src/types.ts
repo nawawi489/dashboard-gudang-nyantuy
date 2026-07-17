@@ -11,6 +11,11 @@ export type LineItem = {
   coa?: string
   coaDescription?: string
   category?: string
+  conversionUnit?: string
+  conversionPrice?: number
+  itemType?: string
+  gramasiUnit?: string
+  gramasiQuantity?: number
 }
 
 export type PRPayload = {
@@ -213,6 +218,9 @@ export interface PeralatanConfirmData {
   qty: number
   jumlah_diterima: number
   outlet: string
+  nomor_invoice: string
+  ppn: number
+  total_tagihan: number
   foto_dokumentasi: File | null
   foto_dokumentasi_nota: File | null
   keterangan_spv: string

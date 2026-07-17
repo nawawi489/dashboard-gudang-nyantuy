@@ -27,8 +27,7 @@ const PeralatanDashboard = ({ outlet, onBack }: PeralatanDashboardProps) => {
     setError(null)
     try {
       const data = await fetchPeralatanList(outlet)
-      const filtered = data.filter(item => String(item.outlet).trim().toLowerCase() === String(outlet).trim().toLowerCase())
-      setList(filtered)
+      setList(data)
       setConfirmedIds([])
       setCurrentPage(1)
       setActive(null)
@@ -53,6 +52,9 @@ const PeralatanDashboard = ({ outlet, onBack }: PeralatanDashboardProps) => {
   const submitConfirm = async (data: {
     jumlahDiterima: number
     keterangan: string
+    nomorInvoice: string
+    ppn: number
+    totalTagihan: number
     fotoFile: File | null
     fotoNotaFile: File | null
   }) => {
@@ -70,6 +72,9 @@ const PeralatanDashboard = ({ outlet, onBack }: PeralatanDashboardProps) => {
         qty: active.qty,
         jumlah_diterima: data.jumlahDiterima,
         outlet,
+        nomor_invoice: data.nomorInvoice,
+        ppn: data.ppn,
+        total_tagihan: data.totalTagihan,
         foto_dokumentasi: data.fotoFile,
         foto_dokumentasi_nota: data.fotoNotaFile,
         keterangan_spv: data.keterangan,

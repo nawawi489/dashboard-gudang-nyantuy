@@ -5,9 +5,9 @@ import { useInventoryRequest } from '../hooks/useInventoryRequest'
 import { fetchInventoryRequestItems } from '../services/items'
 export default function InventoryRequestPage() {
   const {
-    cabangs,
     date,
-    cabang,
+    supplier,
+    invoice,
     note,
     itemName,
     unit,
@@ -18,7 +18,8 @@ export default function InventoryRequestPage() {
     submitting,
     itemsList,
     handleDateChange,
-    handleCabangChange,
+    handleSupplierChange,
+    handleInvoiceChange,
     handleNoteChange,
     handleQuantityChange,
     handleUnitChange,
@@ -34,26 +35,22 @@ export default function InventoryRequestPage() {
 
   return (
     <div className="container">
-      <Header title="Permintaan Inventaris" backTo="/" />
+      <Header title="Permintaan Peralatan" backTo="/" />
       <section className="hero">
-        <h1>Permintaan Inventaris</h1>
-        <p>Silakan isi form di bawah ini untuk mengajukan kebutuhan inventaris.</p>
+        <h1>Permintaan Peralatan</h1>
+        <p>Silakan isi form di bawah ini untuk mengajukan kebutuhan peralatan.</p>
       </section>
 
       <section className="panel">
         <div className="form-grid">
           <div className="control">
-            <label className="label">Tanggal Permintaan</label>
+            <label className="label">Tanggal Pengajuan</label>
             <input type="date" className="input" value={date} onChange={handleDateChange} />
           </div>
           <div className="control">
-            <label className="label">Cabang</label>
-            <select className="select" value={cabang} onChange={handleCabangChange}>
-              <option value="">Pilih Cabang</option>
-              {cabangs.map(o => (<option key={o} value={o}>{o}</option>))}
-            </select>
+            <label className="label">Nama Supplier</label>
+            <input className="input" placeholder="Nama supplier" value={supplier} onChange={handleSupplierChange} />
           </div>
-
           <ItemSearchDropdown
             value={itemName}
             onChange={handleSelectItem}
@@ -62,17 +59,7 @@ export default function InventoryRequestPage() {
           />
 
           <div className="control">
-            <label className="label">Satuan</label>
-            <input
-              className="input"
-              placeholder="Contoh: kg, box, pcs"
-              value={unit}
-              onChange={handleUnitChange}
-              readOnly={!isCustomItem}
-            />
-          </div>
-          <div className="control">
-            <label className="label">Jumlah</label>
+            <label className="label">Qty</label>
             <input
               type="number"
               min={1}
@@ -82,7 +69,17 @@ export default function InventoryRequestPage() {
             />
           </div>
           <div className="control">
-            <label className="label">Satuan Harga</label>
+            <label className="label">Satuan Barang</label>
+            <input
+              className="input"
+              placeholder="Contoh: pcs, unit, set"
+              value={unit}
+              onChange={handleUnitChange}
+              readOnly={!isCustomItem}
+            />
+          </div>
+          <div className="control">
+            <label className="label">Total Estimasi Biaya</label>
             <input
               type="text"
               inputMode="numeric"
@@ -90,8 +87,7 @@ export default function InventoryRequestPage() {
               className="input"
               value={priceInput}
               onChange={handlePriceChange}
-              placeholder="Masukkan harga satuan"
-              title="Satuan Harga"
+              placeholder="Masukkan estimasi biaya"
               style={{
                 fontWeight: 600,
                 color: 'var(--primary)',
@@ -101,7 +97,7 @@ export default function InventoryRequestPage() {
             />
           </div>
           <div className="control" style={{ gridColumn: '1 / -1' }}>
-            <label className="label">Keterangan</label>
+            <label className="label">Catatan</label>
             <textarea
               className="input"
               rows={3}

@@ -25,6 +25,9 @@ export default function PurchaseRequestPage() {
     resetForm,
     addToList,
     handleSelectItem,
+    handleUnitChange,
+    handleSupplierChange,
+    handlePriceChange,
     isAddDisabled,
     isSubmitDisabled,
   } = usePurchaseRequest()
@@ -51,22 +54,22 @@ export default function PurchaseRequestPage() {
             </select>
           </div>
           
-          <ItemSearchDropdown 
+          <ItemSearchDropdown
             value={itemName}
             onChange={handleSelectItem}
           />
 
           <div className="control">
             <label className="label">Satuan</label>
-            <input className="input" placeholder="Contoh: kg, box, pcs" value={unit} readOnly />
+            <input className="input" placeholder="Otomatis dari database" value={unit} readOnly style={{ backgroundColor: '#f5f5f5' }} />
           </div>
           <div className="control">
             <label className="label">Nama Supplier</label>
-            <input className="input" value={supplier} readOnly />
+            <input className="input" placeholder="Otomatis dari database" value={supplier} readOnly style={{ backgroundColor: '#f5f5f5' }} />
           </div>
           <div className="control">
             <label className="label">Harga Satuan</label>
-            <input className="input" value={price ? new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price) : ''} readOnly />
+            <input className="input" placeholder="Otomatis dari database" value={price || ''} readOnly style={{ backgroundColor: '#f5f5f5' }} />
           </div>
           <div className="control">
             <label className="label">Jumlah</label>

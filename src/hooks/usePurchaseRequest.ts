@@ -19,6 +19,11 @@ export function usePurchaseRequest() {
   const [supplier, setSupplier] = useState<string>('')
   const [price, setPrice] = useState<number>(0)
   const [phone, setPhone] = useState<string>('')
+  const [conversionUnit, setConversionUnit] = useState<string>('')
+  const [conversionPrice, setConversionPrice] = useState<number>(0)
+  const [itemType, setItemType] = useState<string>('')
+  const [gramasiUnit, setGramasiUnit] = useState<string>('')
+  const [gramasiQuantity, setGramasiQuantity] = useState<number>(0)
   const [itemsList, setItemsList] = useState<LineItem[]>([])
 
   const resetForm = () => {
@@ -28,6 +33,11 @@ export function usePurchaseRequest() {
     setSupplier('')
     setPrice(0)
     setPhone('')
+    setConversionUnit('')
+    setConversionPrice(0)
+    setItemType('')
+    setGramasiUnit('')
+    setGramasiQuantity(0)
     setQuantity(1)
   }
 
@@ -40,6 +50,42 @@ export function usePurchaseRequest() {
       setPrice(item.price || 0)
       setPhone(item.phone || '')
     }
+  }
+
+  const handleUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setUnit(e.target.value)
+  }
+
+  const handleSupplierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSupplier(e.target.value)
+  }
+
+  const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPrice(Number(e.target.value.replace(/\D/g, '')) || 0)
+  }
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPhone(e.target.value)
+  }
+
+  const handleConversionUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConversionUnit(e.target.value)
+  }
+
+  const handleConversionPriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setConversionPrice(Number(e.target.value.replace(/\D/g, '')) || 0)
+  }
+
+  const handleItemTypeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setItemType(e.target.value)
+  }
+
+  const handleGramasiUnitChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGramasiUnit(e.target.value)
+  }
+
+  const handleGramasiQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setGramasiQuantity(Number(e.target.value) || 0)
   }
 
   const addToList = () => {
@@ -59,6 +105,11 @@ export function usePurchaseRequest() {
         price: price || prev.price,
         supplier: currentSupplier || prev.supplier,
         phone: phone || prev.phone,
+        conversionUnit: conversionUnit || prev.conversionUnit,
+        conversionPrice: conversionPrice || prev.conversionPrice,
+        itemType: itemType || prev.itemType,
+        gramasiUnit: gramasiUnit || prev.gramasiUnit,
+        gramasiQuantity: gramasiQuantity || prev.gramasiQuantity,
       }
       setItemsList(next)
     } else {
@@ -72,6 +123,11 @@ export function usePurchaseRequest() {
           price,
           supplier: currentSupplier,
           phone,
+          conversionUnit,
+          conversionPrice,
+          itemType,
+          gramasiUnit,
+          gramasiQuantity,
         },
       ])
     }
@@ -137,6 +193,12 @@ export function usePurchaseRequest() {
     submitting,
     supplier,
     price,
+    phone,
+    conversionUnit,
+    conversionPrice,
+    itemType,
+    gramasiUnit,
+    gramasiQuantity,
     itemsList,
     groupedItems,
     handleDateChange,
@@ -148,6 +210,15 @@ export function usePurchaseRequest() {
     resetForm,
     addToList,
     handleSelectItem,
+    handleUnitChange,
+    handleSupplierChange,
+    handlePriceChange,
+    handlePhoneChange,
+    handleConversionUnitChange,
+    handleConversionPriceChange,
+    handleItemTypeChange,
+    handleGramasiUnitChange,
+    handleGramasiQuantityChange,
     isAddDisabled,
     isSubmitDisabled,
   }

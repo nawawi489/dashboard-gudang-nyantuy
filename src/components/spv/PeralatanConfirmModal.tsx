@@ -10,14 +10,22 @@ interface PeralatanConfirmModalProps {
   onSubmit: (data: {
     jumlahDiterima: number
     keterangan: string
+    nomorInvoice: string
+    ppn: number
+    totalTagihan: number
     fotoFile: File | null
+    fotoNotaFile: File | null
   }) => void
 }
 
 const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfirmModalProps) => {
   const [jumlahDiterima, setJumlahDiterima] = useState<string>(String(item.qty))
   const [keterangan, setKeterangan] = useState<string>('')
+  const [nomorInvoice, setNomorInvoice] = useState<string>('')
+  const [ppn, setPpn] = useState<string>('')
+  const [totalTagihan, setTotalTagihan] = useState<string>('')
   const [fotoFile, setFotoFile] = useState<File | null>(null)
+  const [fotoNotaFile, setFotoNotaFile] = useState<File | null>(null)
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false)
   const [error, setError] = useState<string | null>(null)
   const [isLoaded, setIsLoaded] = useState<boolean>(false)
@@ -30,6 +38,9 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
           const parsed = JSON.parse(savedData)
           if (parsed.jumlahDiterima) setJumlahDiterima(parsed.jumlahDiterima)
           if (parsed.keterangan) setKeterangan(parsed.keterangan)
+          if (parsed.nomorInvoice) setNomorInvoice(parsed.nomorInvoice)
+          if (parsed.ppn) setPpn(parsed.ppn)
+          if (parsed.totalTagihan) setTotalTagihan(parsed.totalTagihan)
         } catch (e) {
           console.error('Failed to restore draft', e)
         }
@@ -40,10 +51,10 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
 
   useEffect(() => {
     if (open && isLoaded) {
-      const draft = { jumlahDiterima, keterangan }
+      const draft = { jumlahDiterima, keterangan, nomorInvoice, ppn, totalTagihan }
       localStorage.setItem(`peralatan_draft_${item.id_pengajuan}`, JSON.stringify(draft))
     }
-  }, [open, isLoaded, jumlahDiterima, keterangan, item.id_pengajuan])
+  }, [open, isLoaded, jumlahDiterima, keterangan, nomorInvoice, ppn, totalTagihan, item.id_pengajuan])
 
   if (!open) return null
 
@@ -53,14 +64,19 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
 
     const jd = parseInt(jumlahDiterima)
     if (isNaN(jd) || jd < 0) { setError('Jumlah diterima tidak valid.'); return }
-    if (!fotoFile) { setError('Foto dokumentasi wajib diupload.'); return }
+    if (!fotoFile) { setError('Foto dokumentasi penerimaan wajib diupload.'); return }
+    if (!fotoNotaFile) { setError('Foto dokumentasi nota wajib diupload.'); return }
 
     setIsSubmitting(true)
     try {
       await onSubmit({
         jumlahDiterima: jd,
         keterangan,
+        nomorInvoice,
+        ppn: Number(ppn) || 0,
+        totalTagihan: Number(totalTagihan) || 0,
         fotoFile,
+        fotoNotaFile,
       })
       localStorage.removeItem(`peralatan_draft_${item.id_pengajuan}`)
     } finally {
@@ -130,6 +146,42 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
             </div>
 
             <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-1.5">Nomor Invoice</label>
+              <input
+                type="text"
+                value={nomorInvoice}
+                onChange={(e) => setNomorInvoice(e.target.value)}
+                className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none transition-all"
+                placeholder="Nomor invoice"
+              />
+            </div>
+
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">PPN (Nominal)</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={ppn}
+                  onChange={(e) => setPpn(e.target.value)}
+                  className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none transition-all"
+                  placeholder="0"
+                />
+              </div>
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-1.5">Total Tagihan</label>
+                <input
+                  type="number"
+                  min="0"
+                  value={totalTagihan}
+                  onChange={(e) => setTotalTagihan(e.target.value)}
+                  className="w-full px-4 py-2 bg-white text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-teal-500 outline-none transition-all"
+                  placeholder="0"
+                />
+              </div>
+            </div>
+
+            <div>
               <label className="block text-sm font-semibold text-gray-700 mb-1.5">Keterangan (opsional)</label>
               <textarea
                 value={keterangan}
@@ -141,6 +193,7 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
             </div>
 
             <FileUpload label="Foto Dokumentasi Penerimaan" onFileSelect={setFotoFile} required />
+            <FileUpload label="Foto Dokumentasi Nota" onFileSelect={setFotoNotaFile} required />
           </form>
         </div>
 

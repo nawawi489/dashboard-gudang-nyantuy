@@ -31,11 +31,17 @@ export const confirmPeralatan = async (data: PeralatanConfirmData): Promise<void
     formData.append('qty', String(data.qty))
     formData.append('jumlah_diterima', String(data.jumlah_diterima))
     formData.append('outlet', data.outlet)
+    formData.append('nomor_invoice', data.nomor_invoice)
+    formData.append('ppn', String(data.ppn))
+    formData.append('total_tagihan', String(data.total_tagihan))
     formData.append('keterangan_spv', data.keterangan_spv)
     formData.append('tanggal_konfirmasi', data.tanggal_konfirmasi)
     formData.append('status', data.status)
     if (data.foto_dokumentasi) {
       formData.append('foto_dokumentasi', data.foto_dokumentasi, data.foto_dokumentasi.name)
+    }
+    if (data.foto_dokumentasi_nota) {
+      formData.append('foto_dokumentasi_nota', data.foto_dokumentasi_nota, data.foto_dokumentasi_nota.name)
     }
 
     const response = await fetch(SPV_ENDPOINTS.CONFIRM_PERALATAN, { method: 'POST', body: formData })

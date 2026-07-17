@@ -1,23 +1,23 @@
 import { useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LineItem, ItemRow } from '../types'
-import { GUDANG } from '../constants'
 
 type GroupedItems = Record<string, LineItem[]>
 
 export type InventoryRequestSubmitPayload = {
   date: string
-  cabang: string
+  supplier: string
+  invoice: string
   note: string
   items: LineItem[]
 }
 
 export function useInventoryRequest() {
   const navigate = useNavigate()
-  const cabangs = GUDANG
 
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10))
-  const [cabang, setCabang] = useState<string>('')
+  const [supplier, setSupplier] = useState<string>('')
+  const [invoice, setInvoice] = useState<string>('')
   const [note, setNote] = useState<string>('')
   const [itemId, setItemId] = useState<string>('')
   const [itemName, setItemName] = useState<string>('')
@@ -25,8 +25,6 @@ export function useInventoryRequest() {
   const [quantity, setQuantity] = useState<number>(1)
   const [price, setPrice] = useState<number>(0)
   const [priceInput, setPriceInput] = useState<string>('')
-  const [brand, setBrand] = useState<string>('')
-  const [specification, setSpecification] = useState<string>('')
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [itemsList, setItemsList] = useState<LineItem[]>([])
 
@@ -37,8 +35,6 @@ export function useInventoryRequest() {
     setQuantity(1)
     setPrice(0)
     setPriceInput('')
-    setBrand('')
-    setSpecification('')
   }
 
   const handleSelectItem = (item: ItemRow | null, name: string) => {
@@ -48,15 +44,11 @@ export function useInventoryRequest() {
       setUnit(item.unit)
       setPrice(0)
       setPriceInput('')
-      setBrand(item.brand || '')
-      setSpecification(item.specification || '')
     } else {
       setItemId('')
       setUnit('')
       setPrice(0)
       setPriceInput('')
-      setBrand('')
-      setSpecification('')
     }
   }
 
@@ -81,8 +73,6 @@ export function useInventoryRequest() {
           unit,
           quantity,
           price,
-          brand: brand || undefined,
-          specification: specification || undefined,
         },
       ])
     }
@@ -92,15 +82,15 @@ export function useInventoryRequest() {
 
   const groupedItems = useMemo<GroupedItems>(() => {
     return itemsList.reduce((acc, item) => {
-      const key = item.supplier || 'Permintaan Inventaris'
+      const key = supplier || 'Permintaan Peralatan'
       if (!acc[key]) acc[key] = []
       acc[key].push(item)
       return acc
     }, {} as GroupedItems)
-  }, [itemsList])
+  }, [itemsList, supplier])
 
   const handleSubmit = () => {
-    if (!date || !cabang) return
+    if (!date || !supplier) return
     if (itemsList.length === 0) {
       alert('Tambahkan minimal satu barang ke daftar sebelum mengirim.')
       return
@@ -108,7 +98,8 @@ export function useInventoryRequest() {
     setSubmitting(true)
     const payload: InventoryRequestSubmitPayload = {
       date,
-      cabang,
+      supplier,
+      invoice,
       note: note.trim(),
       items: itemsList,
     }
@@ -120,8 +111,12 @@ export function useInventoryRequest() {
     setDate(e.target.value)
   }
 
-  const handleCabangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCabang(e.target.value)
+  const handleSupplierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSupplier(e.target.value)
+  }
+
+  const handleInvoiceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInvoice(e.target.value)
   }
 
   const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -155,13 +150,13 @@ export function useInventoryRequest() {
   }
 
   const isAddDisabled = !itemName || !unit || quantity <= 0 || price <= 0
-  const isSubmitDisabled = submitting || !date || !cabang || itemsList.length === 0
+  const isSubmitDisabled = submitting || !date || !supplier || itemsList.length === 0
   const isCustomItem = !itemId && !!itemName.trim()
 
   return {
-    cabangs,
     date,
-    cabang,
+    supplier,
+    invoice,
     note,
     itemName,
     unit,
@@ -172,7 +167,8 @@ export function useInventoryRequest() {
     itemsList,
     groupedItems,
     handleDateChange,
-    handleCabangChange,
+    handleSupplierChange,
+    handleInvoiceChange,
     handleNoteChange,
     handleQuantityChange,
     handleUnitChange,

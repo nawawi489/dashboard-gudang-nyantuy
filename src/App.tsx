@@ -19,6 +19,8 @@ import InventoryRequestSuccessPage from './pages/InventoryRequestSuccessPage'
 import InventoryApprovalPage from './pages/InventoryApprovalPage'
 import BillInventoryPage from './pages/BillInventoryPage'
 import PerlengkapanRequestPage from './pages/PerlengkapanRequestPage'
+import BillPerlengkapanPage from './pages/BillPerlengkapanPage'
+import PerlengkapanApprovalPage from './pages/PerlengkapanApprovalPage'
 import ConfirmPerlengkapanPage from './pages/ConfirmPerlengkapanPage'
 import PerlengkapanSuccessPage from './pages/PerlengkapanSuccessPage'
 import Footer from './components/Footer'
@@ -28,6 +30,7 @@ import OutletSelectorPage from './pages/spv/OutletSelectorPage'
 import SpvHomePage from './pages/spv/SpvHomePage'
 import PODashboardPage from './pages/spv/PODashboardPage'
 import PeralatanDashboardPage from './pages/spv/PeralatanDashboardPage'
+import PerlengkapanDashboardPage from './pages/spv/PerlengkapanDashboardPage'
 
 function ProtectedLayout() {
   const { isAuthenticated, isInitialized } = useAuth()
@@ -107,12 +110,15 @@ export default function App() {
               <Route path="/perlengkapan" element={<PerlengkapanRequestPage />} />
               <Route path="/confirm-perlengkapan" element={<ConfirmPerlengkapanPage />} />
               <Route path="/perlengkapan-success" element={<PerlengkapanSuccessPage />} />
+              <Route path="/bill-perlengkapan" element={<BillPerlengkapanPage />} />
+              <Route path="/approval-perlengkapan" element={<PerlengkapanApprovalPage />} />
 
               <Route element={<SpvOutletGuard />}>
                 <Route path="/spv/outlet" element={<OutletSelectorPage />} />
                 <Route path="/spv/home" element={<SpvHomePage />} />
                 <Route path="/spv/po" element={<PODashboardPage />} />
                 <Route path="/spv/peralatan" element={<PeralatanDashboardPage />} />
+                <Route path="/spv/perlengkapan" element={<PerlengkapanDashboardPage />} />
               </Route>
             </Route>
           </Route>

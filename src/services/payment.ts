@@ -1,4 +1,4 @@
-import { WEBHOOK_PAYMENT_PROOF, WEBHOOK_STRUK_PEMBELIAN_KASPIN, WEBHOOK_PAYMENT_PROOF_INVENTARIS } from '../config'
+import { WEBHOOK_PAYMENT_PROOF, WEBHOOK_STRUK_PEMBELIAN_KASPIN, WEBHOOK_PAYMENT_PROOF_INVENTARIS, WEBHOOK_PAYMENT_PROOF_PERLENGKAPAN } from '../config'
 
 type PaymentProofMetadata = {
   itemName?: string
@@ -70,6 +70,35 @@ export async function submitInventoryPaymentProof(
     return true
   } catch (error) {
     console.error('Error uploading inventory payment proof:', error)
+    throw error
+  }
+}
+
+export async function submitPerlengkapanPaymentProof(
+  trxId: string,
+  file: File,
+  cabang: string,
+  nomorInvoice?: string,
+): Promise<boolean> {
+  const formData = new FormData()
+  formData.append('trxId', trxId)
+  formData.append('outlet', cabang)
+  formData.append('file', file)
+  if (nomorInvoice) formData.append('nomorInvoice', nomorInvoice)
+
+  try {
+    const response = await fetch(WEBHOOK_PAYMENT_PROOF_PERLENGKAPAN, {
+      method: 'POST',
+      body: formData,
+    })
+
+    if (!response.ok) {
+      throw new Error(`Upload failed: ${response.status} ${response.statusText}`)
+    }
+
+    return true
+  } catch (error) {
+    console.error('Error uploading perlengkapan payment proof:', error)
     throw error
   }
 }

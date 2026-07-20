@@ -1,5 +1,5 @@
 import { useNavigate } from 'react-router-dom'
-import { ArrowLeft, PackageCheck, ClipboardCheck, Store } from 'lucide-react'
+import { ArrowLeft, PackageCheck, ClipboardCheck, Wrench, Store } from 'lucide-react'
 import Footer from '../../components/spv/Footer'
 import { useSpvOutlet } from '../../contexts/SpvOutletContext'
 
@@ -56,6 +56,19 @@ const SpvHomePage = () => {
           <h3 className="text-lg font-bold text-slate-800 mb-2">Konfirmasi Peralatan Masuk</h3>
           <p className="text-slate-500 text-sm">
             Verifikasi peralatan yang tiba di outlet.
+          </p>
+        </button>
+
+        <button
+          onClick={() => navigate('/spv/perlengkapan')}
+          className="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:shadow-md hover:border-amber-200 transition-all group text-left"
+        >
+          <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center text-amber-600 mb-4 group-hover:scale-110 transition-transform">
+            <Wrench size={28} />
+          </div>
+          <h3 className="text-lg font-bold text-slate-800 mb-2">Konfirmasi Perlengkapan Masuk</h3>
+          <p className="text-slate-500 text-sm">
+            Verifikasi perlengkapan yang tiba di outlet.
           </p>
         </button>
       </div>

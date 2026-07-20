@@ -33,11 +33,13 @@ export default function BillCard({ trxId, items, onInputPaymentProof, ctaLabel =
              <div key={idx} className="item-row" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', fontSize: '14px' }}>
                 <div>
                   <div style={{ fontWeight: 600 }}>{item.itemName}</div>
-                  <div style={{ color: 'var(--muted)', fontSize: '12px' }}>{item.quantity} {item.unit} x {formatIDR(item.price)}</div>
+                  <div style={{ color: 'var(--muted)', fontSize: '12px' }}>{item.quantity} {item.unit}{item.price > 0 ? ` x ${formatIDR(item.price)}` : ''}</div>
                 </div>
-                <div style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
-                  {formatIDR(item.quantity * item.price)}
-                </div>
+                {item.price > 0 && (
+                  <div style={{ fontWeight: 600, whiteSpace: 'nowrap' }}>
+                    {formatIDR(item.quantity * item.price)}
+                  </div>
+                )}
              </div>
           ))}
         </div>

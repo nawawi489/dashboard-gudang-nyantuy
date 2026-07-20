@@ -1,28 +1,26 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { LineItem, ItemRow } from '../types'
-import { GUDANG } from '../constants'
 
 export type PerlengkapanRequestSubmitPayload = {
   date: string
-  cabang: string
+  supplier: string
+  note: string
   items: LineItem[]
 }
 
 export function usePerlengkapanRequest() {
   const navigate = useNavigate()
-  const cabangs = GUDANG
 
   const [date, setDate] = useState<string>(new Date().toISOString().slice(0, 10))
-  const [cabang, setCabang] = useState<string>('')
+  const [supplier, setSupplier] = useState<string>('')
+  const [note, setNote] = useState<string>('')
   const [itemId, setItemId] = useState<string>('')
   const [itemName, setItemName] = useState<string>('')
   const [unit, setUnit] = useState<string>('')
   const [quantity, setQuantity] = useState<number>(1)
   const [price, setPrice] = useState<number>(0)
-  const [coa, setCoa] = useState<string>('')
-  const [coaDescription, setCoaDescription] = useState<string>('')
-  const [category, setCategory] = useState<string>('')
+  const [priceInput, setPriceInput] = useState<string>('')
   const [submitting, setSubmitting] = useState<boolean>(false)
   const [itemsList, setItemsList] = useState<LineItem[]>([])
 
@@ -32,9 +30,7 @@ export function usePerlengkapanRequest() {
     setUnit('')
     setQuantity(1)
     setPrice(0)
-    setCoa('')
-    setCoaDescription('')
-    setCategory('')
+    setPriceInput('')
   }
 
   const handleSelectItem = (item: ItemRow | null, name: string) => {
@@ -42,10 +38,13 @@ export function usePerlengkapanRequest() {
     if (item) {
       setItemId(item.id || '')
       setUnit(item.unit)
-      setPrice(item.price || 0)
-      setCoa(item.coa || '')
-      setCoaDescription(item.coaDescription || '')
-      setCategory(item.category || '')
+      setPrice(0)
+      setPriceInput('')
+    } else {
+      setItemId('')
+      setUnit('')
+      setPrice(0)
+      setPriceInput('')
     }
   }
 
@@ -59,7 +58,7 @@ export function usePerlengkapanRequest() {
     if (idx >= 0) {
       const next = [...itemsList]
       const prev = next[idx]
-      next[idx] = { ...prev, quantity: prev.quantity + quantity }
+      next[idx] = { ...prev, quantity: prev.quantity + quantity, price }
       setItemsList(next)
     } else {
       setItemsList([
@@ -70,9 +69,6 @@ export function usePerlengkapanRequest() {
           unit,
           quantity,
           price,
-          coa,
-          coaDescription,
-          category,
         },
       ])
     }
@@ -81,7 +77,7 @@ export function usePerlengkapanRequest() {
   }
 
   const handleSubmit = () => {
-    if (!date || !cabang) return
+    if (!date || !supplier) return
     if (itemsList.length === 0) {
       alert('Tambahkan minimal satu barang ke daftar sebelum mengirim.')
       return
@@ -89,7 +85,8 @@ export function usePerlengkapanRequest() {
     setSubmitting(true)
     const payload: PerlengkapanRequestSubmitPayload = {
       date,
-      cabang,
+      supplier,
+      note: note.trim(),
       items: itemsList,
     }
     navigate('/confirm-perlengkapan', { state: payload })
@@ -100,8 +97,12 @@ export function usePerlengkapanRequest() {
     setDate(e.target.value)
   }
 
-  const handleCabangChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setCabang(e.target.value)
+  const handleSupplierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSupplier(e.target.value)
+  }
+
+  const handleNoteChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setNote(e.target.value)
   }
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,19 +114,9 @@ export function usePerlengkapanRequest() {
   }
 
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPrice(Number(e.target.value))
-  }
-
-  const handleCoaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCoa(e.target.value)
-  }
-
-  const handleCoaDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCoaDescription(e.target.value)
-  }
-
-  const handleCategoryChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCategory(e.target.value)
+    const digitsOnly = e.target.value.replace(/[^\d]/g, '')
+    setPriceInput(digitsOnly)
+    setPrice(Number(digitsOnly || 0))
   }
 
   const handleItemQuantityChange = (idx: number, val: number) => {
@@ -140,33 +131,32 @@ export function usePerlengkapanRequest() {
     setItemsList(next)
   }
 
-  const isAddDisabled = !itemName || !unit || quantity <= 0
-  const isSubmitDisabled = submitting || !date || !cabang || itemsList.length === 0
+  const isCustomItem = !itemId && !!itemName.trim()
+  const isAddDisabled = !itemName || !unit || quantity <= 0 || price <= 0
+  const isSubmitDisabled = submitting || !date || !supplier || itemsList.length === 0
 
   return {
-    cabangs,
     date,
-    cabang,
+    supplier,
+    note,
     itemName,
     unit,
     quantity,
     price,
-    coa,
-    coaDescription,
-    category,
+    priceInput,
+    isCustomItem,
     submitting,
     itemsList,
     handleDateChange,
-    handleCabangChange,
+    handleSupplierChange,
+    handleNoteChange,
     handleQuantityChange,
     handleUnitChange,
     handlePriceChange,
-    handleCoaChange,
-    handleCoaDescriptionChange,
-    handleCategoryChange,
     handleItemQuantityChange,
     handleRemoveItem,
     handleSubmit,
+    resetItem,
     addToList,
     handleSelectItem,
     isAddDisabled,

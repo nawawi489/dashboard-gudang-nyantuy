@@ -16,9 +16,10 @@ interface PeralatanConfirmModalProps {
     fotoFile: File | null
     fotoNotaFile: File | null
   }) => void
+  title?: string
 }
 
-const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfirmModalProps) => {
+const PeralatanConfirmModal = ({ item, open, onClose, onSubmit, title = 'Konfirmasi Peralatan' }: PeralatanConfirmModalProps) => {
   const [jumlahDiterima, setJumlahDiterima] = useState<string>(String(item.qty))
   const [keterangan, setKeterangan] = useState<string>('')
   const [nomorInvoice, setNomorInvoice] = useState<string>('')
@@ -89,7 +90,7 @@ const PeralatanConfirmModal = ({ item, open, onClose, onSubmit }: PeralatanConfi
       <div className="bg-white rounded-xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden">
         <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-gray-800">Konfirmasi Peralatan</h2>
+            <h2 className="text-xl font-bold text-gray-800">{title}</h2>
             <p className="text-sm text-gray-500">ID: {item.id_pengajuan}</p>
           </div>
           <button onClick={onClose} aria-label="Tutup" className="p-2 text-gray-400 hover:text-gray-600 hover:bg-gray-200 rounded-full transition-colors">

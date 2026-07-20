@@ -11,7 +11,8 @@ export default function ConfirmPerlengkapanPage() {
   const { state } = useLocation()
   const data = (state as PerlengkapanRequestSubmitPayload) || {
     date: '',
-    cabang: '',
+    supplier: '',
+    note: '',
     items: [],
   }
   const [submitting, setSubmitting] = useState(false)
@@ -25,7 +26,8 @@ export default function ConfirmPerlengkapanPage() {
     try {
       const body = buildPerlengkapanRequestBody(
         data.date,
-        data.cabang,
+        data.supplier,
+        data.note,
         items,
       )
 
@@ -43,11 +45,8 @@ export default function ConfirmPerlengkapanPage() {
             quantity: it.quantity,
             id: it.id,
             price: it.price,
-            coa: it.coa,
-            coaDescription: it.coaDescription,
-            category: it.category,
           })),
-          cabang: data.cabang,
+          supplier: data.supplier,
         },
       })
     } catch (e) {
@@ -70,7 +69,7 @@ export default function ConfirmPerlengkapanPage() {
       <section className="panel" style={{ marginBottom: 16 }}>
         <div className="form-grid" style={{ marginBottom: 8 }}>
           <div className="control"><div className="label">Tanggal</div><div>{data.date || '-'}</div></div>
-          <div className="control"><div className="label">Cabang</div><div>{data.cabang || '-'}</div></div>
+          <div className="control"><div className="label">Supplier</div><div>{data.supplier || '-'}</div></div>
         </div>
       </section>
 
@@ -90,14 +89,6 @@ export default function ConfirmPerlengkapanPage() {
                   <div>{it.name}</div>
                 </div>
                 <div>
-                  <div className="label">Kategori</div>
-                  <div>{it.category || '-'}</div>
-                </div>
-                <div>
-                  <div className="label">COA</div>
-                  <div>{it.coa || '-'}</div>
-                </div>
-                <div>
                   <div className="label">Satuan</div>
                   <div>{it.unit}</div>
                 </div>
@@ -106,7 +97,7 @@ export default function ConfirmPerlengkapanPage() {
                   <div>{it.quantity}</div>
                 </div>
                 <div>
-                  <div className="label">Harga</div>
+                  <div className="label">Estimasi Biaya</div>
                   <div>{it.price ? formatIDR(it.price) : '-'}</div>
                 </div>
               </div>

@@ -104,6 +104,7 @@ export type InventoryApprovalItem = {
   rowNumber?: number
   outlet: string
   itemId?: string
+  supplier?: string
   itemName: string
   spesifikasi?: string
   quantity: number
@@ -197,6 +198,7 @@ export interface PeralatanItem {
   id_pengajuan: string
   id_peralatan: string
   nama_peralatan: string
+  supplier: string
   spesifikasi: string
   outlet: string
   qty: number

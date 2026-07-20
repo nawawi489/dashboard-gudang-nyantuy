@@ -6,9 +6,10 @@ interface PeralatanCardProps {
   data: PeralatanItem
   onConfirm: (item: PeralatanItem) => void
   isConfirmed?: boolean
+  confirmLabel?: string
 }
 
-const PeralatanCard = ({ data, onConfirm, isConfirmed }: PeralatanCardProps) => {
+const PeralatanCard = ({ data, onConfirm, isConfirmed, confirmLabel = 'Konfirmasi Peralatan' }: PeralatanCardProps) => {
   return (
     <div className={`bg-white rounded-xl shadow-sm border border-gray-200 hover:shadow-md transition-shadow duration-200 overflow-hidden flex flex-col h-full ${isConfirmed ? 'opacity-75 bg-slate-50' : ''}`}>
       <div className={`bg-gradient-to-r ${isConfirmed ? 'from-green-600 to-green-700' : 'from-teal-600 to-teal-700'} px-5 py-3 flex justify-between items-center`}>
@@ -27,10 +28,19 @@ const PeralatanCard = ({ data, onConfirm, isConfirmed }: PeralatanCardProps) => 
           </div>
         </div>
 
-        <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 flex items-start gap-2">
-          <Wrench size={14} className="mt-0.5 flex-shrink-0 text-gray-400" />
-          <span>{data.spesifikasi}</span>
-        </div>
+        {data.supplier && (
+          <div className="text-sm text-gray-500 flex items-center gap-1">
+            <Tag size={14} />
+            <span>Supplier: {data.supplier}</span>
+          </div>
+        )}
+
+        {data.spesifikasi ? (
+          <div className="bg-gray-50 rounded-lg p-3 text-sm text-gray-600 flex items-start gap-2">
+            <Wrench size={14} className="mt-0.5 flex-shrink-0 text-gray-400" />
+            <span>{data.spesifikasi}</span>
+          </div>
+        ) : null}
 
         <hr className="border-gray-100" />
 
@@ -60,7 +70,7 @@ const PeralatanCard = ({ data, onConfirm, isConfirmed }: PeralatanCardProps) => 
         <button
           onClick={() => !isConfirmed && onConfirm(data)}
           disabled={isConfirmed}
-          aria-label={isConfirmed ? 'Terkonfirmasi' : 'Konfirmasi Peralatan'}
+          aria-label={isConfirmed ? 'Terkonfirmasi' : confirmLabel}
           className={`w-full font-medium py-2.5 px-4 rounded-lg transition-all duration-200 flex items-center justify-center gap-2 group shadow-sm ${
             isConfirmed
               ? 'bg-green-100 border border-green-200 text-green-700 cursor-default'
@@ -68,7 +78,7 @@ const PeralatanCard = ({ data, onConfirm, isConfirmed }: PeralatanCardProps) => 
           }`}
         >
           <ClipboardCheck className={`w-4 h-4 ${!isConfirmed && 'group-hover:scale-110'} transition-transform`} />
-          {isConfirmed ? 'Terkonfirmasi' : 'Konfirmasi Peralatan'}
+          {isConfirmed ? 'Terkonfirmasi' : confirmLabel}
         </button>
       </div>
     </div>
